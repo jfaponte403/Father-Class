@@ -5,6 +5,7 @@ import HomeTeachers from "../Pages/Teachers/HomeTeachers/HomeTeachers.tsx";
 import HomeParents from "../Pages/Parents/HomeParents/HomeParents.tsx";
 import HomeStudents from "../Pages/Students/HomeStudents/HomeStudents.tsx";
 import StudentsAdmin from "../Pages/Admin/StudentsAdmin/StudentsAdmin.tsx";
+import TeachersAdmin from "../Pages/Admin/TeachersAdmin/TeachersAdmin.tsx";
 
 const Routers = () => {
     return(
@@ -16,6 +17,7 @@ const Routers = () => {
                 <Route path='/home-parents' element={<HomeParents />} />
                 <Route path='/home-students' element={<HomeStudents />} />
                 <Route path='/students-admin' element={<StudentsAdmin />} />
+                <Route path='/teachers-admin' element={<TeachersAdmin />} />
             </Routes>
         </BrowserRouter>
     );

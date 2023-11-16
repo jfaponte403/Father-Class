@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from routes.students import student
+from routes.teachers import teacher
 
 app = FastAPI()
 
@@ -14,4 +15,5 @@ app.add_middleware(
 )
 
 app.include_router(student)
+app.include_router(teacher)
 

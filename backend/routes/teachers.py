@@ -1,14 +1,15 @@
 from fastapi import APIRouter, HTTPException
+
 from config.db import conn
-from models.students import students
-from schemas.Student import Student
+from models.teachers import teachers
+from schemas.Teacher import Teacher
 
-student = APIRouter()
+teacher = APIRouter()
 
 
-@student.get('/student')
-def get_students():
-    result = conn.execute(students.select())
+@teacher.get('/teacher')
+def get_teachers():
+    result = conn.execute(teachers.select())
     rows = result.fetchall()
 
     for row in rows:
@@ -18,28 +19,26 @@ def get_students():
     return data
 
 
-@student.post('/student', status_code=200)
-def create_students(student_request: Student):
+@teacher.post('/teacher', status_code=200)
+def create_students(teacher_request: Teacher):
     try:
+        print(teacher_request)
 
-        print(student_request)
-
-        new_student = {
-            'code': student_request.code,
-            'name': student_request.name,
-            'age': student_request.age,
-            'course': student_request.course
+        new_teacher = {
+            'code': teacher_request.code,
+            'name': teacher_request.name,
+            'email': teacher_request.email
         }
 
-        print("New Student:", new_student)
+        print("New Student:", new_teacher)
 
-        result = conn.execute(students.insert().values(new_student))
+        result = conn.execute(teachers.insert().values(new_teacher))
 
         # Commit the transaction
         conn.commit()
 
         print("Result:", result)
-        return {"message": "Student created successfully"}
+        return {"message": "Teacher created successfully"}
     except Exception as e:
 
         print("Exception:", e)
@@ -48,10 +47,10 @@ def create_students(student_request: Student):
         return HTTPException(status_code=500, detail="Error occurred")
 
 
-@student.delete('/student/{code}', status_code=200)
+@teacher.delete('/teacher/{code}', status_code=200)
 def delete_student(code: str):
     try:
-        result = conn.execute(students.delete().where(students.c.code == code))
+        result = conn.execute(teachers.delete().where(teachers.c.code == code))
 
         # Commit the transaction
         conn.commit()
@@ -66,17 +65,16 @@ def delete_student(code: str):
         raise HTTPException(status_code=500, detail="Error occurred")
 
 
-@student.put('/student/{code}', status_code=200)
-def update_student(code: str, student_request: Student):
+@teacher.put('/teacher/{code}', status_code=200)
+def update_student(code: str, teacher_request: Teacher):
     try:
         update_values = {
-            'code': student_request.code,
-            'name': student_request.name,
-            'age': student_request.age,
-            'course': student_request.course
+            'code': teacher_request.code,
+            'name': teacher_request.name,
+            'email': teacher_request.email
         }
 
-        result = conn.execute(students.update().where(students.c.code == code).values(update_values))
+        result = conn.execute(teachers.update().where(teachers.c.code == code).values(update_values))
 
         # Commit the transaction
         conn.commit()
